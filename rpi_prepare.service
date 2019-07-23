@@ -1,0 +1,15 @@
+[Unit]
+Description = Nayuta RPi prepare
+After=rpi_watchbtn.service
+ConditionPathExists=/home/pi/Prog/bin
+
+[Service]
+ExecStart=/home/pi/Prog/bin/rpi_start_pre.sh
+Type=oneshot
+RemainAfterExit=yes
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
+

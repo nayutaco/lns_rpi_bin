@@ -1,0 +1,18 @@
+[Unit]
+Description = Nayuta RPi service
+After=rpi_prepare.service
+ConditionPathExists=/home/pi/Prog/bin
+
+[Service]
+ExecStart=/home/pi/Prog/bin/rpi_start.sh
+ExecStop=/home/pi/Prog/ptarmigan/install/ptarmcli -q
+Type=simple
+Restart=on-failure
+User=pi
+Group=pi
+StartLimitInterval=90
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
+
