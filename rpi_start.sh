@@ -59,7 +59,7 @@ else
 	CHAIN=testnet
 fi
 rm -f ${NODEDIR}
-ln -s ${PTARMDIR}/${CHAIN} ${NODEDIR}
+ln -s ${COPYNODEDIR}/${CHAIN} ${NODEDIR}
 rm -f ${NODEDIR}/logs/bitcoinj_startup.log
 stage_log_add "chain=${CHAIN}"
 

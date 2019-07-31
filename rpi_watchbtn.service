@@ -1,6 +1,6 @@
 [Unit]
 Description = Watch Button RPi service
-After=network.target
+After=rpi_swupdate.service
 ConditionPathExists=/home/pi/Prog/bin
 
 [Service]

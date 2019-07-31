@@ -1,0 +1,14 @@
+[Unit]
+Description = Nayuta RPi Software Update
+After=network.target
+ConditionPathExists=/home/pi/Prog/bin
+
+[Service]
+ExecStart=/home/pi/Prog/bin/rpi_swupdate.sh
+Type=oneshot
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
+

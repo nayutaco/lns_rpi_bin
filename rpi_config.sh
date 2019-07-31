@@ -1,5 +1,10 @@
 #!/bin/bash
-export PROGDIR=/home/pi/Prog
+export HOMEDIR=/home/pi
+export PROGDIR=${HOMEDIR}/Prog
+export PROGORGDIR=${HOMEDIR}/ProgOrg
+export UPDATEDIR=${HOMEDIR}/Update
+export COPYNODEDIR=${HOMEDIR}/node
+
 export PTARMDIR=${PROGDIR}/ptarmigan/install
 export NODEDIR=${PTARMDIR}/node
 export EPAPERDIR=${PROGDIR}/rpi_epaper
@@ -17,6 +22,7 @@ export APMODE=/boot/RPI_APMODE
 export CLIENT=/boot/RPI_CLIENT
 export USEWEB=/boot/RPI_USEWEB
 export MAINNET=/boot/RPI_MAINNET
+export SWUPDATE=/boot/RPI_SWUPDATE
 
 export LED1=3
 export LED2=2
