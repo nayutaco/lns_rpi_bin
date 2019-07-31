@@ -3,7 +3,7 @@ export HOMEDIR=/home/pi
 export PROGDIR=${HOMEDIR}/Prog
 export PROGORGDIR=${HOMEDIR}/ProgOrg
 export UPDATEDIR=${HOMEDIR}/Update
-export COPYNODEDIR=${HOMEDIR}/node
+export COPYNODEDIR=${HOMEDIR}/NodeData
 
 export PTARMDIR=${PROGDIR}/ptarmigan/install
 export NODEDIR=${PTARMDIR}/node
