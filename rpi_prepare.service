@@ -4,7 +4,7 @@ After=rpi_watchbtn.service
 ConditionPathExists=/home/pi/Prog/bin
 
 [Service]
-ExecStart=/home/pi/Prog/bin/rpi_start_pre.sh
+ExecStart=/home/pi/Prog/bin/rpi_prepare.sh
 Type=oneshot
 RemainAfterExit=yes
 User=pi

@@ -4,7 +4,7 @@ After=rpi_swupdate.service
 ConditionPathExists=/home/pi/Prog/bin
 
 [Service]
-ExecStart=/home/pi/Prog/bin/watch_btn.sh
+ExecStart=/home/pi/Prog/bin/rpi_watchbtn.sh
 Type=simple
 User=pi
 Group=pi
