@@ -4,6 +4,19 @@ set -eu
 
 source /home/pi/Prog/bin/rpi_config.sh
 
+blink() {
+	for i in `seq 1 $1`; do
+		gpio write ${LED1} ${LED_ON}
+		gpio write ${LED2} ${LED_OFF}
+		sleep $2
+		gpio write ${LED1} ${LED_OFF}
+		gpio write ${LED2} ${LED_ON}
+		sleep $2
+	done
+	gpio write ${LED1} ${LED_ON}
+	gpio write ${LED2} ${LED_ON}
+}
+
 if [ -f ${NOTSTART} ]; then
 	exit 0
 fi
@@ -16,15 +29,17 @@ gpio mode ${BTN2} in
 btn1_on=`gpio read ${BTN1}`
 btn2_on=`gpio read ${BTN2}`
 
-if [ -f ${RPI_SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
+if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	stage_log_add "UPDATE"
 
 
-	tar jxf ${RPI_SWUPDATE} -C ${HOMEDIR}
+	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
+	sudo rm ${SWUPDATE}
 
-	sleep 5
+	${EPAPERPY} "" "SW updated!"
+
 	do_reboot "*Update"
 fi
