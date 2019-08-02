@@ -38,17 +38,17 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	${EPAPERPY} "" "SW update!" &
 	blink 15 0.1
 
-	sudo rm -rf ${UPDATEDIR}.bak
-	mv ${UPDATEDIR} ${UPDATEDIR}.bak && :
+	# /home/pi/ProgUpd.new
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
-		if [ ! -f ${UPDATEDIR}/${dname} ]; then
-			cp -ra ${UPDATEDIR}.bak/${dname} ${UPDATEDIR}/
+		if [ ! -f ${UPDATEDIR}.new/${dname} ]; then
+			cp -ra ${PROGDIR}/${dname} ${UPDATEDIR}.new/
 		fi
 	done
 
 	rm ${PROGDIR}
+	mv ${UPDATEDIR}.new ${UPDATEDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	sudo rm ${SWUPDATE}
 	sync
