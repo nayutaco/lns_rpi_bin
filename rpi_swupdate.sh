@@ -30,16 +30,12 @@ btn1_on=`gpio read ${BTN1}`
 btn2_on=`gpio read ${BTN2}`
 
 if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
-	stage_log_add "UPDATE"
-
-
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	sudo rm ${SWUPDATE}
 
-	${EPAPERPY} "" "SW updated!"
-
-	do_reboot "*Update"
+	${EPAPERPY} "" "SW updated!"&
+	sudo reboot
 fi
