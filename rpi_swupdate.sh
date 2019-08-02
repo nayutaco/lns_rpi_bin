@@ -30,7 +30,7 @@ btn1_on=`gpio read ${BTN1}`
 btn2_on=`gpio read ${BTN2}`
 
 if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
-	${EPAPERPY} "" "SW updated!" &
+	${EPAPERPY} "" "SW update!" &
 	blink 20 0.1
 
 	mv ${UPDATEDIR} ${UPDATEDIR}.bak && :
@@ -41,6 +41,8 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	rm -rf ${UPDATEDIR}.bak
 	sudo rm ${SWUPDATE}
 
+	gpio write ${LED1} ${LED_OFF}
+	gpio write ${LED2} ${LED_OFF}
 	sudo reboot
 fi
 gpio write ${LED1} ${LED_ON}
