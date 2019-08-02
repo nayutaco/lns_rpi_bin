@@ -35,28 +35,28 @@ btn1_on=`gpio read ${BTN1}`
 btn2_on=`gpio read ${BTN2}`
 
 if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
+	echo "begin SW update"
 	${EPAPERPY} "" "SW update!" &
 	blink 15 0.1
 
 	# /home/pi/ProgUpd.new
 	sudo rm -rf ${UPDATEDIR}.new
-	tar jxf ${SWUPDATE} -C ${HOMEDIR}
+	sudo tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
 		if [ ! -f ${UPDATEDIR}.new/${dname} ]; then
-			cp -ra ${PROGDIR}/${dname} ${UPDATEDIR}.new/
+			echo use previous ${dname}
+			sudo cp -ra ${PROGDIR}/${dname} ${UPDATEDIR}.new/
 		fi
 	done
 
-	rm ${PROGDIR}
+	sudo rm -rf ${UPDATEDIR}
 	sudo mv ${UPDATEDIR}.new ${UPDATEDIR}
+	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	sudo rm ${SWUPDATE}
 	sync
-
-	gpio write ${LED1} ${LED_OFF}
-	gpio write ${LED2} ${LED_OFF}
-	sudo reboot
+	echo "end SW update"
 fi
 
 blink 3 0.3
