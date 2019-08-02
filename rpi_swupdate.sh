@@ -29,17 +29,27 @@ gpio mode ${BTN2} in
 btn1_on=`gpio read ${BTN1}`
 btn2_on=`gpio read ${BTN2}`
 
+gpio write ${LED1} ${LED_ON}
+gpio write ${LED2} ${LED_ON}
+
+sleep 3
+
 if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	${EPAPERPY} "" "SW update!" &
-	blink 20 0.1
+	blink 15 0.1
 
 	sudo rm -rf ${UPDATEDIR}.bak
 	mv ${UPDATEDIR} ${UPDATEDIR}.bak && :
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
+	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
+		if [ ! -f ${UPDATEDIR}/${dname} ];
+			cp -ra ${UPDATEDIR}.bak/${dname} ${UPDATEDIR}/
+		fi
+	done
+
 	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
-	sudo rm -rf ${UPDATEDIR}.bak
 	sudo rm ${SWUPDATE}
 	sync
 
@@ -47,5 +57,5 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	gpio write ${LED2} ${LED_OFF}
 	sudo reboot
 fi
-gpio write ${LED1} ${LED_ON}
-gpio write ${LED2} ${LED_ON}
+
+blink 3 0.3
