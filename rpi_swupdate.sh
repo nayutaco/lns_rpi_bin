@@ -43,7 +43,7 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
-		if [ ! -f ${UPDATEDIR}/${dname} ];
+		if [ ! -f ${UPDATEDIR}/${dname} ]; then
 			cp -ra ${UPDATEDIR}.bak/${dname} ${UPDATEDIR}/
 		fi
 	done
