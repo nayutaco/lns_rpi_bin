@@ -40,6 +40,7 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	rm -rf ${UPDATEDIR}.bak
 	sudo rm ${SWUPDATE}
+	sync
 
 	gpio write ${LED1} ${LED_OFF}
 	gpio write ${LED2} ${LED_OFF}
