@@ -26,13 +26,13 @@ gpio mode ${LED2} out
 gpio mode ${BTN1} in
 gpio mode ${BTN2} in
 
-btn1_on=`gpio read ${BTN1}`
-btn2_on=`gpio read ${BTN2}`
-
 gpio write ${LED1} ${LED_ON}
 gpio write ${LED2} ${LED_ON}
 
 sleep 3
+
+btn1_on=`gpio read ${BTN1}`
+btn2_on=`gpio read ${BTN2}`
 
 if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	${EPAPERPY} "" "SW update!" &
