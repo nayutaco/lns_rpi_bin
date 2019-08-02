@@ -39,6 +39,7 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	blink 15 0.1
 
 	# /home/pi/ProgUpd.new
+	sudo rm -rf ${UPDATEDIR}.new
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
@@ -48,7 +49,7 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	done
 
 	rm ${PROGDIR}
-	mv ${UPDATEDIR}.new ${UPDATEDIR}
+	sudo mv ${UPDATEDIR}.new ${UPDATEDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	sudo rm ${SWUPDATE}
 	sync
