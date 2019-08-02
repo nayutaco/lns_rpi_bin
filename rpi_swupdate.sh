@@ -33,12 +33,13 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	${EPAPERPY} "" "SW update!" &
 	blink 20 0.1
 
+	sudo rm -rf ${UPDATEDIR}.bak
 	mv ${UPDATEDIR} ${UPDATEDIR}.bak && :
 	tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
-	rm -rf ${UPDATEDIR}.bak
+	sudo rm -rf ${UPDATEDIR}.bak
 	sudo rm ${SWUPDATE}
 	sync
 
