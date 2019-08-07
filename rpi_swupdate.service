@@ -1,12 +1,11 @@
 [Unit]
-Description = Nayuta RPi prepare
-After=rpi_watchbtn.service
+Description = Nayuta RPi Software Update
+After=network.target
 ConditionPathExists=/home/pi/Prog/bin
 
 [Service]
-ExecStart=/home/pi/Prog/bin/rpi_prepare.sh
+ExecStart=/home/pi/Prog/bin/rpi_swupdate.sh
 Type=oneshot
-RemainAfterExit=yes
 User=pi
 Group=pi
 
