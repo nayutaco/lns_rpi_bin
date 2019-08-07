@@ -122,6 +122,7 @@ else
 	exit 0
 fi
 
+sudo rm -f ${PROGDIR}/invoice.png ${PROGDIR}/invoice.txt
 ${UARTPY}&
 
 echo "done: uart"
