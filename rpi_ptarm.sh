@@ -41,7 +41,7 @@ echo ${START_COUNT} > ${PROGDIR}/start_count.txt
 
 if [ ${START_COUNT} -gt 3 ]; then
 	#too many restart ==> reboot
-	${EPAPERPY} "" "Too May Restart!"
+	${EPAPERPY} "" "Many Restart"
 	do_reboot "*exit"
 	exit 0
 fi
