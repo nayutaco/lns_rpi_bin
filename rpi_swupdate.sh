@@ -44,7 +44,7 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	sudo tar jxf ${SWUPDATE} -C ${HOMEDIR}
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
-		if [ ! -f ${UPDATEDIR}.new/${dname} ]; then
+		if [ ! -d ${UPDATEDIR}.new/${dname} ]; then
 			echo use previous ${dname}
 			sudo cp -ra ${PROGDIR}/${dname} ${UPDATEDIR}.new/
 		fi
