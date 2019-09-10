@@ -44,6 +44,12 @@ if [ -f ${FIRSTBOOT} ]; then
 	do_reboot "*First Boot"
 fi
 
+if [ -f ${UPDATED} ]; then
+	updated=`cat ${UPDATED}`
+	stage_log_add "${updated}"
+	rm ${UPDATED}
+fi
+
 stage_log_add "STAGE1"
 
 rm -f ${PROGDIR}/ipaddr.txt

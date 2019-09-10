@@ -42,10 +42,13 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	# /home/pi/ProgUpd.new
 	sudo rm -rf ${UPDATEDIR}.new
 	sudo tar jxf ${SWUPDATE} -C ${HOMEDIR}
+	rm -f ${UPDATED}.new
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
-		if [ ! -d ${UPDATEDIR}.new/${dname} ]; then
-			echo use previous ${dname}
+		if [ -d ${UPDATEDIR}.new/${dname} ]; then
+			echo ${dname}:new >> ${UPDATED}.new
+		else
+			echo ${dname}:old >> ${UPDATED}.new
 			sudo cp -ra ${PROGDIR}/${dname} ${UPDATEDIR}.new/
 		fi
 	done
@@ -55,6 +58,8 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	rm ${PROGDIR}
 	ln -s ${UPDATEDIR} ${PROGDIR}
 	sudo rm ${SWUPDATE}
+	rm -f ${UPDATED}
+	mv ${UPDATED}.new ${UPDATED}
 	sync
 	echo "end SW update"
 fi

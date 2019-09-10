@@ -23,6 +23,7 @@ export CLIENT=/boot/RPI_CLIENT
 export USEWEB=/boot/RPI_USEWEB
 export MAINNET=/boot/RPI_MAINNET
 export SWUPDATE=/boot/RPI_SWUPDATE
+export UPDATED=${HOMEDIR}/rpi_updated
 
 export LED1=3
 export LED2=2
