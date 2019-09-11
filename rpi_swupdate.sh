@@ -42,7 +42,9 @@ if [ -f ${SWUPDATE} ] && [ ${btn1_on} -eq 0 ] && [ ${btn2_on} -eq 0 ]; then
 	# /home/pi/ProgUpd.new
 	sudo rm -rf ${UPDATEDIR}.new
 	sudo tar jxf ${SWUPDATE} -C ${HOMEDIR}
+
 	rm -f ${UPDATED}.new
+	cat ${PROGDIR}/ver.txt > ${UPDATED}.new
 
 	for dname in bin rpi_epaper rpi_uart rpi_web ptarmigan; do
 		if [ -d ${UPDATEDIR}.new/${dname} ]; then
