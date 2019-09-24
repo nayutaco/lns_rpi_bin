@@ -73,6 +73,7 @@ do
 	stage_log_add "STAGE11"
 
 	echo "done: ptarmd start"
+	sleep 10
 
 	count=0
 	bitcoinj_startup=""
