@@ -75,29 +75,47 @@ do
 	echo "done: ptarmd start"
 
 	count=0
+	bitcoinj_startup=""
 	while :
 	do
+		sleep 1
+
+		# check ptarmd port
 		stage_log_add "STAGE11-a"
 		port_ln=`netstat -na | grep "9735" | wc -l`
 		port_rpc=`netstat -na | grep "9736" | wc -l`
 		if [ ${port_ln} -gt 0 ] && [ ${port_rpc} -gt 0 ]; then
-			# detect start
+			# detect start ptarmd
 			stage_log_add "STAGE11-x1"
 			PTARMD_LOOP=0
 			break
 		fi
-		sleep 1
-		count=$((count+1))
-		if [ $count -gt 600 ]; then
-			# timeout --> ptarmd restart
+		
+		#  check bitcoinj startup log updating
+		bitcoinj_startup_now=""
+		if [ -f ${NODEDIR}/logs/bitcoinj_startup.log ]; then
+			bitcoinj_startup_now=`cat ${NODEDIR}/logs/bitcoinj_startup.log`
+			echo bitcoinj_startup_now=${bitcoinj_startup_now}
+		fi
+		if [ "${bitcoinj_startup}" = "${bitcoinj_startup_now}" ]; then
+			echo "same"
+			count=$((count+1))
+		else
+			bitcoinj_startup=${bitcoinj_startup_now}
+			echo "update"
+			count=0
+		fi
+		if [ $count -gt 10 ]; then
+			# maybe bitcoinj not working --> ptarmd restart
 			stage_log_add "STAGE11-x2"
 			killall ptarmd
 			sleep 5
 			break
 		fi
+
 		stage_log_add "STAGE11-b"
 
-		# ptarmd process
+		# check ptarmd process
 		PTARMD_PROC=`ps aux | grep ptarmd | grep -c network`
 		if [ ${PTARMD_PROC} -eq 0 ]; then
 			# no ptarmd process
