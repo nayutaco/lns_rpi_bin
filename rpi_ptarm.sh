@@ -105,7 +105,7 @@ do
 			echo "update"
 			count=0
 		fi
-		if [ $count -gt 10 ]; then
+		if [ $count -gt 60 ]; then
 			# maybe bitcoinj not working --> ptarmd restart
 			stage_log_add "STAGE11-x2"
 			killall ptarmd
