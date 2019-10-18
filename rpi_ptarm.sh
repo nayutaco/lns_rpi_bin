@@ -66,6 +66,7 @@ stage_log_add "chain=${CHAIN}"
 ${SPV_STARTUPPY}&
 
 PTARMD_LOOP=1
+PTARMD_REBOOT=180
 while [ ${PTARMD_LOOP} -gt 0 ]
 do
 	${PTARMDIR}/ptarmd -d ${NODEDIR} --network=${CHAIN} | cronolog -p 1hours ${PROGDIR}/logs/ptarm%H_${CHAIN}.log&
@@ -106,7 +107,7 @@ do
 			echo "update"
 			count=0
 		fi
-		if [ $count -gt 60 ]; then
+		if [ $count -gt $PTARMD_REBOOT ]; then
 			# maybe bitcoinj not working --> ptarmd restart
 			stage_log_add "STAGE11-x2"
 			killall ptarmd
