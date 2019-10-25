@@ -29,7 +29,8 @@ stage_log_add() {
 }
 
 do_reboot() {
-	stage_log_add $1
+	stage_log_add "[REBOOT]$1"
+	echo "`date -u +"%Y-%m-%dT%H:%M:%S.%N"` $1" >> ${PROGDIR}/logs/reboot.log
 	bash ${PROGDIR}/epaper_led.sh REBOOT
 	sudo reboot
 }
@@ -66,7 +67,9 @@ stage_log_add "chain=${CHAIN}"
 ${SPV_STARTUPPY}&
 
 PTARMD_LOOP=1
-PTARMD_REBOOT=180
+PTARMD_RESTART=500
+SCRIPT_RESTART=50
+stage_log_add "STAGE11-in"
 while [ ${PTARMD_LOOP} -gt 0 ]
 do
 	${PTARMDIR}/ptarmd -d ${NODEDIR} --network=${CHAIN} | cronolog -p 1hours ${PROGDIR}/logs/ptarm%H_${CHAIN}.log&
@@ -83,14 +86,13 @@ do
 		sleep 1
 
 		# check ptarmd port
-		stage_log_add "STAGE11-a"
 		port_ln=`netstat -na | grep "9735" | wc -l`
 		port_rpc=`netstat -na | grep "9736" | wc -l`
 		if [ ${port_ln} -gt 0 ] && [ ${port_rpc} -gt 0 ]; then
 			# detect start ptarmd
-			stage_log_add "STAGE11-x1"
+			stage_log_add "STAGE11-ok"
 			PTARMD_LOOP=0
-			break
+			break	#exit loop and go
 		fi
 		
 		#  check bitcoinj startup log updating
@@ -107,36 +109,36 @@ do
 			echo "update"
 			count=0
 		fi
-		if [ $count -gt $PTARMD_REBOOT ]; then
+		if [ $count -gt $PTARMD_RESTART ]; then
 			# maybe bitcoinj not working --> ptarmd restart
-			stage_log_add "STAGE11-x2"
+			stage_log_add "STAGE11-restart1"
 			killall ptarmd
 			sleep 5
-			break
+			break	#exit loop and retry ptarmd
 		fi
-
-		stage_log_add "STAGE11-b"
 
 		# check ptarmd process
 		PTARMD_PROC=`ps aux | grep ptarmd | grep -c network`
 		if [ ${PTARMD_PROC} -eq 0 ]; then
 			# no ptarmd process
 			PTARMD_LOOP=$((PTARMD_LOOP+1))
-			if [ ${PTARMD_LOOP} -gt 3 ]; then
-				echo "STOP=** FAIL **" > ${NODEDIR}/logs/bitcoinj_startup.log
-				sleep 10
+			if [ ${PTARMD_LOOP} -gt ${SCRIPT_RESTART} ]; then
+				#exit loop and stop
+				echo "STOP=restart.." > ${NODEDIR}/logs/bitcoinj_startup.log
 				PTARMD_LOOP=-1
+				stage_log_add "STAGE11-stop"
 			else
-				echo "CONT=*restart*" > ${NODEDIR}/logs/bitcoinj_startup.log
+				#exit loop and restart ptarmd
+				echo "CONT=retry.." > ${NODEDIR}/logs/bitcoinj_startup.log
+				stage_log_add "STAGE11-restart2"
 			fi
-			stage_log_add "STAGE11-x3"
 			break
 		fi
 	done
 done
 
 if [ ${PTARMD_LOOP} -eq 0 ]; then
-	stage_log_add "STAGE12"
+	stage_log_add "STAGE11-out"
 else
 	stage_log_add "MANY REBOOT"
 	exit 0
