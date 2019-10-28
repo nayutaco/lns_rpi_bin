@@ -24,7 +24,8 @@ stage_log_add() {
 }
 
 do_reboot() {
-	stage_log_add $1
+	stage_log_add "[reboot]$1"
+	echo "`date -u +"%Y-%m-%dT%H:%M:%S.%N"` $1" >> ${PROGDIR}/logs/reboot.log
 	sleep 3
 	sudo reboot
 }
@@ -96,7 +97,7 @@ do
 	fi
 	echo addr=${ipaddr}
 	if [ -n "${ipaddr}" ]; then
-		stage_log_add "STAGE7-x"
+		stage_log_add "STAGE7-ok"
 		qrencode -s 3 -o ${PROGDIR}/website.png http://${ipaddr}
 		${EPAPERPY} ${PROGDIR}/website.png ${ipaddr}&
 		break
