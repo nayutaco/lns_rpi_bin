@@ -129,7 +129,7 @@ do
 				stage_log_add "STAGE11-stop"
 			else
 				#exit loop and restart ptarmd
-				echo "CONT=retry.." > ${NODEDIR}/logs/bitcoinj_startup.log
+				echo "CONT=continue" > ${NODEDIR}/logs/bitcoinj_startup.log
 				stage_log_add "STAGE11-restart2"
 			fi
 			break
