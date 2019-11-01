@@ -131,8 +131,8 @@ echo 0 > ${PROGDIR}/start_count.txt
 
 # copy ptarmigan script(update)
 cp ${PROGDIR}/bin/ptarmd_script/* ${PTARMDIR}/script/
-cp ${PROGDIR}/bin/ptarmd_script/* ${COPYNODEDIR}/testnet/script/
-cp ${PROGDIR}/bin/ptarmd_script/* ${COPYNODEDIR}/mainnet/script/
+cp -ra ${PTARMDIR}/script ${COPYNODEDIR}/testnet/
+cp -ra ${PTARMDIR}/script ${COPYNODEDIR}/mainnet/
 
 gpio write ${LED1} ${LED_OFF}
 gpio write ${LED2} ${LED_OFF}
