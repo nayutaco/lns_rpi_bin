@@ -149,7 +149,16 @@ ${UARTPY}&
 
 echo "done: uart"
 
-node_id=`${PTARMDIR}/ptarmcli -l | jq -r -e '.["result"]["node_id"]'`
+PTARMD_LOOP=12
+while [ ${PTARMD_LOOP} -gt 0 ]
+do
+	node_id=`${PTARMDIR}/ptarmcli -l | jq -r -e '.["result"]["node_id"]'`
+	if [ -n "$node_id" ]; then
+		break
+	fi
+	sleep 5
+	PTARMD_LOOP=$((PTARMD_LOOP-1))
+done
 if [ -z "$node_id" ]; then
 	echo "fail: get node_id"
 	do_reboot "*fail node_id"
