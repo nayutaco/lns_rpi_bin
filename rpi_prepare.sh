@@ -122,8 +122,10 @@ stage_log_add "STAGE9"
 
 if [ -f ${APMODE}_WIFI ]; then
 	stage_log_add "*APmode"
-	sleep 600
-	sudo reboot
+	while :
+	do
+		sleep 600
+	done
 fi
 
 stage_log_add "STAGE10"
